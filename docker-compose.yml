@@ -1,0 +1,27 @@
+services:
+
+  app:
+    image: couchdb:3
+    restart: unless-stopped
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
+      - VIRTUAL_PORT=5984
+      - LETSENCRYPT_HOST=${VIRTUAL_HOST}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    
+    volumes:
+      - data:/opt/couchdb/data
+      - etc:/opt/couchdb/etc/local.d
+    
+    networks:
+      - proxy_frontend
+
+volumes:
+  data:
+  etc:
+
+networks:
+  proxy_frontend:
+    external: true
